@@ -1,4 +1,4 @@
-This is a simple dns updater for loopia. It will iterate through all accounts in the configuration file and all domains all specified domains for that account and update their ip address to the current one. 
+This is a simple dns updater for loopia. It will iterate through all accounts in the configuration file and all domains specified for that account and update their ip address to the current one. 
 
 Change pyloopia.conf to look something like the example below, then set dns_updater.py as a cron job.
 
