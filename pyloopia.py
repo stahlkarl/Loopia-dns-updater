@@ -7,7 +7,7 @@ class Loopia:
 		accounts = []
 		for account in conf_file.read().split("\n"):
 			if account != "":
-				accounts.append(json.loads(account))
+				accounts.append(json.loads(account.replace("\r", "")))
 		conf_file.close()
 		return accounts
 
