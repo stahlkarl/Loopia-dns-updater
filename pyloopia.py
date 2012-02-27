@@ -4,7 +4,7 @@ class Loopia:
 
 	def conf(self):
 		conf_file = open(self.configuration_filename, 'r')
-		accounts = []
+		accounts  = []
 		for account in conf_file.read().split("\n"):
 			if account != "":
 				accounts.append(json.loads(account.replace("\r", "")))
@@ -13,11 +13,11 @@ class Loopia:
 
 	def login(self, username, password):
 		client.log("Logging in as %s" % username)
-		cookiejar     = cookielib.CookieJar()
-		loopia_opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookiejar))
+		cookiejar                 = cookielib.CookieJar()
+		loopia_opener             = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookiejar))
 		loopia_opener.add_headers = [('User-agent', 'Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.10) Gecko/20100922 Ubuntu/10.10 (maverick) Firefox/3.6.10')]
+		login_query               = urllib.urlencode({'username': username, 'password': password, 'action': 'submit', 'submit.x': '0', 'submit.y': '0', 'new': 0})
 		urllib2.install_opener(loopia_opener)
-		login_query = urllib.urlencode({'username': username, 'password': password, 'action': 'submit', 'submit.x': '0', 'submit.y': '0', 'new': 0})
 		urllib2.urlopen("https://www.loopia.com/login", login_query)
 	
 	def logged_in(self):
@@ -44,7 +44,7 @@ class Loopia:
 	def update_dns(self, domain, type, target):
 		#Type can be either A or CNAME
 		client.log("Updating DNS settings for %s. Pointing %s --> %s" % (domain['name'], domain['name'], target))
-		html = urllib2.urlopen("https://customerzone.loopia.se/domains/properties/index/domain/%s" % domain['id']).read()
-		hash = cre.between('<input type="hidden" name="hash" value="', '"', html)
+		html     = urllib2.urlopen("https://customerzone.loopia.se/domains/properties/index/domain/%s" % domain['id']).read()
+		hash     = cre.between('<input type="hidden" name="hash" value="', '"', html)
 		settings = urllib.urlencode({'type': type, 'target': target, 'hash': hash})
 		urllib2.urlopen("https://customerzone.loopia.se/domains/properties/dns/domain/%s/subdomain/0/synchronize/1/context/json" % domain['id'], settings).read()
